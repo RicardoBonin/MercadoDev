@@ -3,8 +3,11 @@ import HeaderHome from './HeaderHome'
 import AnuncioHome from './AnuncioHome'
 import Footer from './Footer'
 import LinkCategoria from './LinkCategoria'
+import { useDatabase } from './database'
 
 function App() {
+  const data = useDatabase('mercadodev-c70f7')
+  
   return (
     <div className="App">
       <HeaderHome />

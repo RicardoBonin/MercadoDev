@@ -1,3 +1,7 @@
+import firebase from 'firebase/app'
+import 'firebase/database'
+import 'firebase/auth'
+
 const config = {
     apiKey: "AIzaSyCqclHa9nWRDLuSgeSkGGaUTUHOurROanw",
     authDomain: "mercadodev-c70f7.firebaseapp.com",
@@ -8,11 +12,6 @@ const config = {
     appId: "1:466707936549:web:ee5b3824b1f95b004b56cc"
   }
 
-  const Rebase = require('re-base')
-  const firebase = require('firebase/app')
-  require('firebase/database')
+  firebase.initializeApp(config)
 
-  const app = firebase.initializeApp(config)
-  const base = Rebase.createClass(app.database())
-
-  export default base
+  export default firebase
