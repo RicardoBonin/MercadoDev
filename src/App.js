@@ -3,10 +3,12 @@ import HeaderHome from './HeaderHome'
 import AnuncioHome from './AnuncioHome'
 import Footer from './Footer'
 import LinkCategoria from './LinkCategoria'
-import { useDatabase } from './database'
+import {  useDatabase } from './database'
 
 function App() {
-  const data = useDatabase('mercadodev-c70f7')
+  const data = useDatabase('categorias')
+  console.log(data)
+  const ids = Object.keys(data)
   
   return (
     <div className="App">
@@ -20,14 +22,14 @@ function App() {
         </div>
         <h3>Categorias</h3>
         <div className='row'>
-          <LinkCategoria categoria={{categoria: 'Olá', 'icon': 'fa-lightbulb-o'}} />
-          <LinkCategoria categoria={{categoria: 'Olá', 'icon': 'fa-lightbulb-o'}} />
-          <LinkCategoria categoria={{categoria: 'Olá', 'icon': 'fa-lightbulb-o'}} />
-          <LinkCategoria categoria={{categoria: 'Olá', 'icon': 'fa-lightbulb-o'}} />
+          { ids.map( cat => {
+            return <LinkCategoria categoria={{cat}} />
+          })
+          }
+          <p>52</p>
         </div>
       </div>
       <Footer />
-      <p>44min aula</p>
     </div>
   )
 }
