@@ -6,27 +6,31 @@ import LinkCategoria from './LinkCategoria'
 import {  useDatabase } from './database'
 
 function App() {
-  const data = useDatabase('categorias')
-  console.log(data)
-  const ids = Object.keys(data)
-  
+  const dataCategorias = useDatabase('categorias')
+  const dataAnuncios = useDatabase('anuncios')
+  const idsCat = Object.keys(dataCategorias)
+  const idsAnun = Object.keys(dataAnuncios)
+  let index = 0
   return (
     <div className="App">
       <HeaderHome />
       <div className='container'>
         <h3>Útimos Anúncios</h3>
         <div className='row'>
-          <AnuncioHome />
-          <AnuncioHome />
-          <AnuncioHome />
+          { idsAnun.map( cat => {
+            return <AnuncioHome key={cat} anuncio={dataAnuncios[cat]}/>
+          })
+          }
         </div>
         <h3>Categorias</h3>
         <div className='row'>
-          { ids.map( cat => {
-            return <LinkCategoria categoria={{cat}} />
+          { idsCat.map( cat => {
+            return  [
+                     <LinkCategoria key={cat} categoria={dataCategorias[cat]} />,
+                     ++index%4 === 0 && <div key={'c'+cat} className='w-100'></div>
+                    ]
           })
           }
-          <p>52</p>
         </div>
       </div>
       <Footer />
