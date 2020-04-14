@@ -30,7 +30,7 @@ const Home = () => {
                     ]
           })
           }
-          <span>10 min aula 2</span>
+          <span>30 min aula 2</span>
         </div>
       </div>
     </div>
