@@ -1,33 +1,33 @@
-import { useState, useEffect } from 'react'
-import firebase from './firebase'
+import { useState, useEffect } from "react";
+import firebase from "./firebase";
 
-export const useDataBasePush = endpoint => {
-  const [status, setStatus] = useState('')
+export const useDataBasePush = (endpoint) => {
+  const [status, setStatus] = useState("");
 
-  const save = data => {
-    const ref = firebase.database().ref(endpoint)
-    ref.push(data, err => {
-      if(err){
-        setStatus('ERROR')
-      }else{
-        setStatus('SUCCESS')
+  const save = (data) => {
+    const ref = firebase.database().ref(endpoint);
+    ref.push(data, (err) => {
+      if (err) {
+        setStatus("ERROR");
+      } else {
+        setStatus("SUCCESS");
       }
-    })
-  }
-  return [status, save]
-}
+    });
+  };
+  return [status, save];
+};
 
-export const useDatabase = endpoint => {
-  const [data, setData] = useState({})
+export const useDatabase = (endpoint) => {
+  const [data, setData] = useState({});
 
-  useEffect(()=>{
-    const ref = firebase.database().ref(endpoint)
-    ref.on('value', snapshot => {
-      setData(snapshot.val())
-    })
+  useEffect(() => {
+    const ref = firebase.database().ref(endpoint);
+    ref.on("value", (snapshot) => {
+      setData(snapshot.val());
+    });
     return () => {
-      ref.off()
-    }
-  }, [endpoint])
-  return data
-}
+      ref.off();
+    };
+  }, [endpoint]);
+  return data;
+};
