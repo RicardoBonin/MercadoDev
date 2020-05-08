@@ -19,11 +19,11 @@ const NovoAnuncio = () => {
     setState({ ...state, [name]: value });
     //console.log(file);
   };
-  console.log(file);
+  console.log(file.name);
   const fileOnChange = (evt) => {
     setFile(evt.target.files[0]);
   };
-  const createNewAnnouncement = () => {
+  const createNewAnnouncement = async () => {
     /*if (state) {
       save({
         nome: state.nome,
@@ -37,9 +37,15 @@ const NovoAnuncio = () => {
     setState(INITTIAL_STATE);*/
     const { name, size } = file;
     const ref = storage.ref(name);
-    ref.put(file).then((img) => {
-      console.log(img);
+    await ref.put(file).then((img) => {
+      console.log(img, img.downloadURL);
     });
+    await ref
+      .child(name)
+      .getDownloadURL()
+      .then((url) => {
+        console.log(url);
+      });
   };
   return (
     <div>
