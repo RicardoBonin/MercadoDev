@@ -1,52 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import HeaderInterno from "./HeaderInterno";
 import { useDataBasePush } from "./database";
 import { storage } from "./firebase";
+import { store } from "./store";
 const INITTIAL_STATE = {
   nome: "",
   descricao: "",
+  categoria: "",
   preco: "",
   telefone: "",
   vendedor: "",
-  foto: "http://placehold.it/200x140",
+  foto: "",
 };
 const NovoAnuncio = () => {
   const [state, setState] = useState(INITTIAL_STATE);
   const [file, setFile] = useState("");
+  const { data } = useContext(store);
   const [, save] = useDataBasePush("anuncios");
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setState({ ...state, [name]: value });
-    //console.log(file);
   };
-  console.log(file.name);
   const fileOnChange = (evt) => {
     setFile(evt.target.files[0]);
   };
   const createNewAnnouncement = async () => {
-    /*if (state) {
-      save({
-        nome: state.nome,
-        descricao: state.descricao,
-        preco: state.preco,
-        foto: state.foto,
-        telefone: state.telefone,
-        vendedor: state.vendedor,
-      });
-    }
-    setState(INITTIAL_STATE);*/
-    const { name, size } = file;
+    const { name } = file;
     const ref = storage.ref(name);
     await ref.put(file).then((img) => {
-      console.log(img, img.downloadURL);
+      console.log(img);
     });
-    await ref
-      .child(name)
+    await storage
+      .ref()
+      .child(file.name)
       .getDownloadURL()
       .then((url) => {
-        console.log(url);
+        if (state) {
+          save({
+            nome: state.nome,
+            descricao: state.descricao,
+            categoria: state.categoria,
+            preco: state.preco,
+            telefone: state.telefone,
+            vendedor: state.vendedor,
+            foto: url,
+          });
+          console.log(state);
+        }
       });
+    setState(INITTIAL_STATE);
   };
+  console.log(data);
   return (
     <div>
       <HeaderInterno />
@@ -75,6 +79,16 @@ const NovoAnuncio = () => {
               id="nome"
               placeholder="Nome"
             />
+          </div>
+          <div className="form-froup">
+            <label htmlFor="nome">Categoria</label>
+            <select onChange={handleChange}>
+              {Object.keys(data.categorias).map((categoria) => (
+                <option value={categoria.url}>
+                  {data.categoria[categoria]}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="form-froup">
             <label htmlFor="descricao">Descrição</label>
@@ -126,7 +140,7 @@ const NovoAnuncio = () => {
           </div>
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-primary mt-4"
             onClick={createNewAnnouncement}
           >
             Salvar Anúncio
