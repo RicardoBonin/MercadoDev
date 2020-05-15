@@ -6,7 +6,7 @@ import { store } from "./store";
 const INITTIAL_STATE = {
   nome: "",
   descricao: "",
-  categoria: "",
+  categoria: "automoveis",
   preco: "",
   telefone: "",
   vendedor: "",
@@ -17,9 +17,11 @@ const NovoAnuncio = () => {
   const [file, setFile] = useState("");
   const { data } = useContext(store);
   const [, save] = useDataBasePush("anuncios");
+
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setState({ ...state, [name]: value });
+    console.log(state)
   };
   const fileOnChange = (evt) => {
     setFile(evt.target.files[0]);
@@ -47,17 +49,17 @@ const NovoAnuncio = () => {
           });
           console.log(state);
         }
+        setState(INITTIAL_STATE);
       });
-    setState(INITTIAL_STATE);
+   
   };
-  console.log(data);
   return (
     <div>
       <HeaderInterno />
       <div className="container" style={{ paddingTop: "120px" }}>
         <h1>Novo Anúcio</h1>
         <form>
-          <div className="form-froup">
+          <div className="form-group">
             <label htmlFor="foto">Foto</label>
             <input
               type="file"
@@ -68,7 +70,7 @@ const NovoAnuncio = () => {
               placeholder="Foto"
             />
           </div>
-          <div className="form-froup">
+          <div className="form-group">
             <label htmlFor="nome">Nome</label>
             <input
               type="text"
@@ -80,17 +82,17 @@ const NovoAnuncio = () => {
               placeholder="Nome"
             />
           </div>
-          <div className="form-froup">
-            <label htmlFor="nome">Categoria</label>
-            <select onChange={handleChange}>
+          <div className="form-group">
+            <label htmlFor="categoria">Categoria</label>
+            <select onChange={handleChange} name="categoria" value={state.categoria} >
               {Object.keys(data.categorias).map((categoria) => (
-                <option value={categoria.url}>
-                  {data.categoria[categoria]}
+                <option key={categoria}  value={data.categorias[categoria].url}>
+                  {data.categorias[categoria].categoria}
                 </option>
               ))}
             </select>
           </div>
-          <div className="form-froup">
+          <div className="form-group">
             <label htmlFor="descricao">Descrição</label>
             <input
               type="text"
@@ -102,7 +104,7 @@ const NovoAnuncio = () => {
               placeholder="Descrição"
             />
           </div>
-          <div className="form-froup">
+          <div className="form-group">
             <label htmlFor="preco">Preço</label>
             <input
               type="text"
@@ -114,7 +116,7 @@ const NovoAnuncio = () => {
               placeholder="Preço"
             />
           </div>
-          <div className="form-froup">
+          <div className="form-group">
             <label htmlFor="telefone">Telefone</label>
             <input
               type="text"
@@ -126,7 +128,7 @@ const NovoAnuncio = () => {
               placeholder="Telefone"
             />
           </div>
-          <div className="form-froup">
+          <div className="form-group">
             <label htmlFor="vendedor">Vendedor</label>
             <input
               type="text"
