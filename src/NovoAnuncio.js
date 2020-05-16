@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import HeaderInterno from "./HeaderInterno";
 import { useDataBasePush } from "./database";
 import { storage } from "./firebase";
 import { store } from "./store";
+import { Redirect } from "react-router-dom";
 const INITTIAL_STATE = {
   nome: "",
   descricao: "",
@@ -11,27 +12,28 @@ const INITTIAL_STATE = {
   telefone: "",
   vendedor: "",
   foto: "",
+  success: false,
 };
 const NovoAnuncio = () => {
   const [state, setState] = useState(INITTIAL_STATE);
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState();
   const { data } = useContext(store);
   const [, save] = useDataBasePush("anuncios");
+  const imageInputRef = useRef();
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setState({ ...state, [name]: value });
-    console.log(state)
+    console.log(state);
   };
   const fileOnChange = (evt) => {
     setFile(evt.target.files[0]);
   };
+
   const createNewAnnouncement = async () => {
     const { name } = file;
     const ref = storage.ref(name);
-    await ref.put(file).then((img) => {
-      console.log(img);
-    });
+    await ref.put(file);
     await storage
       .ref()
       .child(file.name)
@@ -49,11 +51,14 @@ const NovoAnuncio = () => {
           });
           console.log(state);
         }
-        setState(INITTIAL_STATE);
       });
-   
+    setState(INITTIAL_STATE);
+    imageInputRef.current.value = "";
+    setState({ ...state, success: true });
   };
-  return (
+  return state.success ? (
+    <Redirect to="/" />
+  ) : (
     <div>
       <HeaderInterno />
       <div className="container" style={{ paddingTop: "120px" }}>
@@ -65,6 +70,8 @@ const NovoAnuncio = () => {
               type="file"
               className="form-control"
               name="foto"
+              ref={imageInputRef}
+              value={state.foto}
               onChange={fileOnChange}
               id="foto"
               placeholder="Foto"
@@ -84,9 +91,14 @@ const NovoAnuncio = () => {
           </div>
           <div className="form-group">
             <label htmlFor="categoria">Categoria</label>
-            <select onChange={handleChange} name="categoria" value={state.categoria} >
+            <select
+              className="form-control"
+              onChange={handleChange}
+              name="categoria"
+              value={state.categoria}
+            >
               {Object.keys(data.categorias).map((categoria) => (
-                <option key={categoria}  value={data.categorias[categoria].url}>
+                <option key={categoria} value={data.categorias[categoria].url}>
                   {data.categorias[categoria].categoria}
                 </option>
               ))}
