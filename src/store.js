@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { useDatabase } from "./database";
 
 const INITIAL_STATE = {

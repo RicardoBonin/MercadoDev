@@ -3,6 +3,7 @@ import { StateProvider } from "./store";
 import Home from "./Home";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import NovoAnuncio from "./NovoAnuncio";
+import Categorias from "./Categorias";
 import Footer from "./Footer";
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <div className="App">
           <Route path="/" exact component={Home} />
           <Route path="/novo-anuncio" exact component={NovoAnuncio} />
+          <Route path="/categorias" exact component={Categorias} />
           <Footer />
         </div>
       </Router>

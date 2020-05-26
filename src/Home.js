@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import AnuncioHome from "./AnuncioHome";
 import LinkCategoria from "./LinkCategoria";
 import HeaderHome from "./HeaderHome";
-import { useDatabase } from "./database";
 import { store } from "./store";
 
 const Home = () => {
