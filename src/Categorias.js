@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import HeaderInterno from "./HeaderInterno";
 import { store } from "./store";
-import { Link, Route, Switch } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import Categoria from "./Categoria";
 
 const Categorias = () => {
@@ -15,21 +15,23 @@ const Categorias = () => {
         <pre>{JSON.stringify(data.categorias)}</pre>
         <div className="row">
           <div className="col-lg-4">
-            {Object.keys(data.categorias).map((categoria) => {
-              console.log(data.categorias[categoria].url);
-              return (
-                <p key={categoria}>
-                  <Link to={`/categorias/${data.categorias[categoria].url}`}>
-                    {data.categorias[categoria].categoria}
-                  </Link>
-                </p>
-              );
-            })}
+            <ul>
+              {Object.keys(data.categorias).map((categoria) => {
+                return (
+                  <li key={categoria}>
+                    <Link
+                      to={`/categorias/${data.categorias[categoria].url}`}
+                      replace
+                    >
+                      {data.categorias[categoria].categoria}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
           <div className="col-lg-8">
-            <Switch>
-              <Route path="/categorias/:id" component={Categoria} />
-            </Switch>
+            <Route path={"/categorias/:id"} component={Categoria} />
           </div>
         </div>
       </div>
