@@ -16,7 +16,11 @@ const Home = () => {
         <div className="row">
           {Object.keys(data.anuncios).map((anuncio) => {
             return (
-              <AnuncioHome key={anuncio} anuncio={data.anuncios[anuncio]} />
+              <AnuncioHome
+                key={anuncio}
+                id={anuncio}
+                anuncio={data.anuncios[anuncio]}
+              />
             );
           })}
         </div>
@@ -31,7 +35,7 @@ const Home = () => {
               ),
             ];
           })}
-          <span>1:42 hora aula 3</span>
+          <span>1:58 hora aula 3</span>
         </div>
       </div>
     </div>

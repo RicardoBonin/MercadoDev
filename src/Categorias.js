@@ -3,10 +3,10 @@ import HeaderInterno from "./HeaderInterno";
 import { store } from "./store";
 import { Link, Route } from "react-router-dom";
 import Categoria from "./Categoria";
+import Anuncio from "./Anuncio";
 
 const Categorias = () => {
   const { data } = useContext(store);
-  console.log(data.categorias.categoria);
   return (
     <div>
       <HeaderInterno />
@@ -31,7 +31,11 @@ const Categorias = () => {
             </ul>
           </div>
           <div className="col-lg-8">
-            <Route path={"/categorias/:id"} component={Categoria} />
+            <Route path="/categorias/:id" exact component={Categoria} />
+            <Route
+              path="/categorias/:id/:idAnuncio"
+              render={(props) => <Anuncio props={props} />}
+            />
           </div>
         </div>
       </div>
