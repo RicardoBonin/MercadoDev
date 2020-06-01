@@ -12,23 +12,23 @@ const Categorias = () => {
       <HeaderInterno />
       <div className="container" style={{ paddingTop: "120px" }}>
         <h1>Categorias</h1>
-        <pre>{JSON.stringify(data.categorias)}</pre>
         <div className="row">
           <div className="col-lg-4">
-            <ul>
+            <div className="list-group">
               {Object.keys(data.categorias).map((categoria) => {
                 return (
-                  <li key={categoria}>
+                  <a key={categoria}>
                     <Link
+                      className="list-group-item list-group-item-action"
                       to={`/categorias/${data.categorias[categoria].url}`}
                       replace
                     >
                       {data.categorias[categoria].categoria}
                     </Link>
-                  </li>
+                  </a>
                 );
               })}
-            </ul>
+            </div>
           </div>
           <div className="col-lg-8">
             <Route path="/categorias/:id" exact component={Categoria} />

@@ -35,7 +35,6 @@ const Home = () => {
               ),
             ];
           })}
-          <span>1:58 hora aula 3</span>
         </div>
       </div>
     </div>

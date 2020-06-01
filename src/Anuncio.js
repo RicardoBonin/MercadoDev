@@ -17,11 +17,18 @@ const Anuncio = (props) => {
   }
 
   return (
-    <div>
+    <div className="text-center">
       <h1>{state.anuncio.nome}</h1>
       <p>
-        <img src={state.anuncio.foto} />
+        <img src={state.anuncio.foto} className="img-fluid img-thumbnail" />
       </p>
+      <div className="card-body">
+        <h4 className="card-title">
+          <h3>{state.anuncio.nome}</h3>
+        </h4>
+        <h5>preco</h5>
+        <p className="card-text">{state.anuncio.descricao}</p>
+      </div>
     </div>
   );
 };

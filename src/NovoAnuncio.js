@@ -49,7 +49,6 @@ const NovoAnuncio = () => {
             vendedor: state.vendedor,
             foto: url,
           });
-          console.log(state);
         }
       });
     setState(INITTIAL_STATE);
@@ -87,6 +86,7 @@ const NovoAnuncio = () => {
               onChange={handleChange}
               id="nome"
               placeholder="Nome"
+              required
             />
           </div>
           <div className="form-group">
@@ -96,6 +96,7 @@ const NovoAnuncio = () => {
               onChange={handleChange}
               name="categoria"
               value={state.categoria}
+              required
             >
               {Object.keys(data.categorias).map((categoria) => (
                 <option key={categoria} value={data.categorias[categoria].url}>
@@ -114,6 +115,7 @@ const NovoAnuncio = () => {
               onChange={handleChange}
               id="descricao"
               placeholder="Descrição"
+              required
             />
           </div>
           <div className="form-group">
@@ -126,30 +128,33 @@ const NovoAnuncio = () => {
               onChange={handleChange}
               id="preco"
               placeholder="Preço"
+              required
             />
           </div>
           <div className="form-group">
             <label htmlFor="telefone">Telefone</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control phone-mask"
               name="telefone"
               value={state.telefone}
               onChange={handleChange}
               id="telefone"
               placeholder="Telefone"
+              required
             />
           </div>
           <div className="form-group">
             <label htmlFor="vendedor">Vendedor</label>
             <input
-              type="text"
+              type="tel"
               className="form-control"
               name="vendedor"
               value={state.vendedor}
               onChange={handleChange}
               id="vendedor"
               placeholder="Vendedor"
+              required
             />
           </div>
           <button

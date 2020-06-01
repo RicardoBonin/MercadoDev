@@ -20,7 +20,7 @@ const Categoria = (props) => {
     <div>
       <h1>Categoria: {anuncios}</h1>
       {state.isLoading && (
-        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+        <i className="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
       )}
       {!state.isLoading && Object.keys(state.anuncios).length === 0 && (
         <p>Nenhum produto cadastrado!</p>
