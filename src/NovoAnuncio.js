@@ -13,6 +13,7 @@ const INITTIAL_STATE = {
   vendedor: "",
   foto: "",
   success: false,
+  error: "",
 };
 const NovoAnuncio = () => {
   const [state, setState] = useState(INITTIAL_STATE);
@@ -29,31 +30,56 @@ const NovoAnuncio = () => {
   const fileOnChange = (evt) => {
     setFile(evt.target.files[0]);
   };
-
+  console.log(file);
   const createNewAnnouncement = async () => {
-    const { name } = file;
-    const ref = storage.ref(name);
-    await ref.put(file);
-    await storage
-      .ref()
-      .child(file.name)
-      .getDownloadURL()
-      .then((url) => {
-        if (state) {
-          save({
-            nome: state.nome,
-            descricao: state.descricao,
-            categoria: state.categoria,
-            preco: state.preco,
-            telefone: state.telefone,
-            vendedor: state.vendedor,
-            foto: url,
+    try {
+      if (
+        state.nome.length === 0 ||
+        state.descricao.length === 0 ||
+        state.preco.length === 0 ||
+        state.telefone.length === 0 ||
+        state.vendedor.length === 0 ||
+        file === undefined
+      ) {
+        setState({
+          ...state,
+          error: "[ERRO] Por favor, preencha todos os campos!",
+        });
+        setTimeout(() => {
+          setState({
+            ...state,
+            error: "",
           });
-        }
-      });
-    setState(INITTIAL_STATE);
-    imageInputRef.current.value = "";
-    setState({ ...state, success: true });
+        }, [5000]);
+      } else {
+        const { name } = file;
+        const ref = storage.ref(name);
+        await ref.put(file);
+        await storage
+          .ref()
+          .child(file.name)
+          .getDownloadURL()
+          .then((url) => {
+            if (state) {
+              save({
+                nome: state.nome,
+                descricao: state.descricao,
+                categoria: state.categoria,
+                preco: state.preco,
+                telefone: state.telefone,
+                vendedor: state.vendedor,
+                foto: url,
+              });
+            }
+          });
+        setState(INITTIAL_STATE);
+        imageInputRef.current.value = "";
+        setState({ ...state, success: true });
+      }
+    } catch (err) {
+      setState({ ...state, error: "Error" });
+      console.log(err);
+    }
   };
   return state.success ? (
     <Redirect to="/" />
@@ -134,7 +160,7 @@ const NovoAnuncio = () => {
           <div className="form-group">
             <label htmlFor="telefone">Telefone</label>
             <input
-              type="text"
+              type="tel"
               className="form-control phone-mask"
               name="telefone"
               value={state.telefone}
@@ -147,7 +173,7 @@ const NovoAnuncio = () => {
           <div className="form-group">
             <label htmlFor="vendedor">Vendedor</label>
             <input
-              type="tel"
+              type="text"
               className="form-control"
               name="vendedor"
               value={state.vendedor}
@@ -165,6 +191,11 @@ const NovoAnuncio = () => {
             Salvar Anúncio
           </button>
         </form>
+        {state.error.length > 0 && (
+          <div className="alert alert-danger mt-4" role="alert">
+            {state.error}
+          </div>
+        )}
       </div>
     </div>
   );
