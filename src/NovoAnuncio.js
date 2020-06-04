@@ -21,10 +21,35 @@ const NovoAnuncio = () => {
   const { data } = useContext(store);
   const [, save] = useDataBasePush("anuncios");
   const imageInputRef = useRef();
-
+  const telefoneMask = (valu) => {
+    return valu
+      .replace(/\D/g, "")
+      .replace(/^(\d{2})/, "($1)")
+      .replace(/(\d{5})(\d{4})\d+?$/, "$1-$2");
+  };
+  const precoMask = (val) => {
+    return val
+      .replace(/\D/g, "")
+      .replace(/(\d{1})(\d{15})$/, "$1.$2")
+      .replace(/(\d{1})(\d{11})$/, "$1.$2")
+      .replace(/(\d{1})(\d{8})$/, "$1.$2")
+      .replace(/(\d{1})(\d{5})$/, "$1.$2")
+      .replace(/(\d{1})(\d{1,2})$/, "$1,$2");
+  };
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setState({ ...state, [name]: value });
+    if (name === "telefone") {
+      console.log("cheguei aqui");
+      setState({ ...state, telefone: telefoneMask(evt.target.value) });
+    }
+    if (name === "preco") {
+      console.log("cheguei aqui");
+      setState({
+        ...state,
+        preco: precoMask(evt.target.value),
+      });
+    }
     console.log(state);
   };
   const fileOnChange = (evt) => {

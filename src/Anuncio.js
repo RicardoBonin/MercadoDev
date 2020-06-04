@@ -26,8 +26,10 @@ const Anuncio = (props) => {
         <h4 className="card-title">
           <h3>{state.anuncio.nome}</h3>
         </h4>
-        <h5>Preço</h5>
+        <h5>Descrição</h5>
         <p className="card-text">{state.anuncio.descricao}</p>
+        <h5>Preço</h5>
+        <p className="card-text">{`${state.anuncio.preco} R$`}</p>
       </div>
     </div>
   );
